@@ -23,7 +23,7 @@ RSpec.describe FaradayMiddleware::MultipartRelated do
   end
 
   it 'sets the Content-Type to multipart/related with the boundary' do
-    expected_content_type = "multipart/related;boundary=#{Faraday::Request::Multipart::DEFAULT_BOUNDARY_PREFIX}"
+    expected_content_type = "multipart/related; boundary=#{Faraday::Request::Multipart::DEFAULT_BOUNDARY_PREFIX}"
 
     response = perform
     expect(response.headers['Content-Type']).to eq(expected_content_type)
