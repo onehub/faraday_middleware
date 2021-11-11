@@ -8,7 +8,7 @@ module FaradayMiddleware
   autoload :OAuth2,          'faraday_middleware/request/oauth2'
   autoload :EncodeJson,      'faraday_middleware/request/encode_json'
   autoload :MethodOverride,  'faraday_middleware/request/method_override'
-  autoload :MultipartRelated,'faraday_middleware/request/multipart_related'
+  autoload :MultipartRelated, 'faraday_middleware/request/multipart_related'
   autoload :Mashify,         'faraday_middleware/response/mashify'
   autoload :Rashify,         'faraday_middleware/response/rashify'
   autoload :ParseJson,       'faraday_middleware/response/parse_json'

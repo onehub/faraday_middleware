@@ -19,8 +19,8 @@ module FaradayMiddleware
       @app.call env
     end
 
-    def create_related(env, params)
-      Faraday::Request::Multipart.new.create_multipart(env, env[:body].map { |part| [nil, part]})
+    def create_related(env, _params)
+      Faraday::Request::Multipart.new.create_multipart(env, env[:body].map { |part| [nil, part] })
     end
 
     def process_request?(env)
@@ -29,4 +29,3 @@ module FaradayMiddleware
     end
   end
 end
-

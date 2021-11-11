@@ -8,7 +8,7 @@ RSpec.describe FaradayMiddleware::MultipartRelated do
       b.adapter :test do |stub|
         stub.post('/echo') do |env|
           posted_as = env[:request_headers]['Content-Type']
-          [200, {'Content-Type' => posted_as}, env[:body]]
+          [200, { 'Content-Type' => posted_as }, env[:body]]
         end
       end
     end
