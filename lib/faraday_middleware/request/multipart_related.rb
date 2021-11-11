@@ -25,7 +25,7 @@ module FaradayMiddleware
 
     def process_request?(env)
       type = request_type(env)
-      env[:body].respond_to?(:map) and !env[:body].empty? and (type.empty? or type == self.class.mime_type)
+      env[:body].respond_to?(:map) && !env[:body].empty? && (type.empty? || type == self.class.mime_type)
     end
   end
 end
