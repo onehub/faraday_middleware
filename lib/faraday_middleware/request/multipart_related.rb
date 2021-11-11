@@ -13,7 +13,7 @@ module FaradayMiddleware
       match_content_type(env) do |params|
         env[:request] ||= {}
         env[:request][:boundary] ||= Faraday::Request::Multipart::DEFAULT_BOUNDARY_PREFIX
-        env[:request_headers][CONTENT_TYPE] += ";boundary=#{env[:request][:boundary]}"
+        env[:request_headers][CONTENT_TYPE] += "; boundary=#{env[:request][:boundary]}"
         env[:body] = create_related(env, params)
       end
       @app.call env
