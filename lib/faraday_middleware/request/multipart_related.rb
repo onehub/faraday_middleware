@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faraday'
 
 module FaradayMiddleware
@@ -5,12 +7,12 @@ module FaradayMiddleware
   # A request middleware for rfc2387 Multipart-Related
   #
   class MultipartRelated < Faraday::Request::UrlEncoded
-    self.mime_type = 'multipart/related'.freeze
+    self.mime_type = 'multipart/related'
 
     def call(env)
       match_content_type(env) do |params|
         env[:request] ||= {}
-        env[:request][:boundary] ||= Faraday::Request::Multipart::DEFAULT_BOUNDARY
+        env[:request][:boundary] ||= Faraday::Request::Multipart::DEFAULT_BOUNDARY_PREFIX
         env[:request_headers][CONTENT_TYPE] += ";boundary=#{env[:request][:boundary]}"
         env[:body] = create_related(env, params)
       end

@@ -1,12 +1,8 @@
-require 'helper'
-require 'faraday_middleware'
-require 'faraday_middleware/request/multipart_related'
+# frozen_string_literal: true
 
-describe FaradayMiddleware::MultipartRelated do
-  let(:content_type) { "multipart/related;boundary=#{Faraday::Request::Multipart::DEFAULT_BOUNDARY}" }
-
-  before do
-    @conn = Faraday.new do |b|
+RSpec.describe FaradayMiddleware::MultipartRelated do
+  let(:connection) do
+    Faraday.new do |b|
       b.request :multipart_related
       b.request :url_encoded
       b.adapter :test do |stub|
@@ -19,18 +15,21 @@ describe FaradayMiddleware::MultipartRelated do
   end
 
   def perform
-    metadata = Faraday::UploadIO.new(StringIO.new("{\"title\":\"multipart_related_spec.rb\"}"),
-                                     'application/json')
+    body = StringIO.new('{"title":"multipart_related_spec.rb"}')
+    metadata = Faraday::UploadIO.new(body, 'application/json')
+
     file = Faraday::UploadIO.new(__FILE__, 'text/x-ruby')
-    @conn.post('/echo', [metadata, file])
+    connection.post('/echo', [metadata, file])
   end
 
-  it "sets the Content-Type to multipart/related with the boundary" do
+  it 'sets the Content-Type to multipart/related with the boundary' do
+    expected_content_type = "multipart/related;boundary=#{Faraday::Request::Multipart::DEFAULT_BOUNDARY_PREFIX}"
+
     response = perform
-    expect(response.headers['Content-Type']).to eq(content_type)
+    expect(response.headers['Content-Type']).to eq(expected_content_type)
   end
 
-  it "sets the body should be a Faraday::CompositeReadIO" do
+  it 'sets the body to a Faraday::CompositeReadIO' do
     response = perform
     expect(response.body).to be_an_instance_of(Faraday::CompositeReadIO)
   end
